@@ -8,13 +8,14 @@ from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 
 SCOPES = ['https://www.googleapis.com/auth/drive']
-creds = None
 base_dir = 'credential'
 token_file = os.path.join(base_dir, 'token.json')
 
 output_dir = 'dataset'
 
 def main():
+
+    creds = None
 
     if not os.path.exists(output_dir):
         os.mkdir(output_dir)
@@ -37,13 +38,13 @@ def main():
 
     drive_service = build('drive', 'v3', credentials=creds)
 
-    data = pd.read_csv('Data Collection CN340 1_64 (Responses) - Data Collection.csv')
+    data = pd.read_csv('Data Collection CN340 1_64 (Responses) - Data Collection.csv', encoding='utf-8')
 
     for i, row in data.iterrows():
         out_dir = os.path.join(output_dir, str(row['รหัสนักศึกษา']))
         if not os.path.exists(out_dir):
             os.mkdir(out_dir)
-        with open(os.path.join(out_dir, 'info.txt'), 'w') as f:
+        with open(os.path.join(out_dir, 'info.txt', encoding='utf-8'), 'w') as f:
             f.write(str(row['รหัสนักศึกษา']) + '\n')
             f.write(row['ชื่อ(ไทย)'] + '\n')
             f.write(row['นามสกุล(ไทย)'] + '\n')
